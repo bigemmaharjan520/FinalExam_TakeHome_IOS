@@ -14,6 +14,9 @@
 		282869552BBCA7F700208321 /* Bigem_Maharjan_FE_8952906.xcdatamodeld in Sources */ = {isa = PBXBuildFile; fileRef = 282869532BBCA7F700208321 /* Bigem_Maharjan_FE_8952906.xcdatamodeld */; };
 		282869572BBCA7F800208321 /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 282869562BBCA7F800208321 /* Assets.xcassets */; };
 		2828695A2BBCA7F800208321 /* LaunchScreen.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 282869582BBCA7F800208321 /* LaunchScreen.storyboard */; };
+		288385CD2BC8C30000457078 /* WeatherScenceViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 288385CC2BC8C30000457078 /* WeatherScenceViewController.swift */; };
+		289F0C872BCB8697009C7C2B /* NewsScenceViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 289F0C862BCB8697009C7C2B /* NewsScenceViewController.swift */; };
+		28F5CD762BCB1F8800EBD67D /* DirectionScenceViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 28F5CD752BCB1F8800EBD67D /* DirectionScenceViewController.swift */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
@@ -26,6 +29,9 @@
 		282869562BBCA7F800208321 /* Assets.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; path = Assets.xcassets; sourceTree = "<group>"; };
 		282869592BBCA7F800208321 /* Base */ = {isa = PBXFileReference; lastKnownFileType = file.storyboard; name = Base; path = Base.lproj/LaunchScreen.storyboard; sourceTree = "<group>"; };
 		2828695B2BBCA7F800208321 /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
+		288385CC2BC8C30000457078 /* WeatherScenceViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = WeatherScenceViewController.swift; sourceTree = "<group>"; };
+		289F0C862BCB8697009C7C2B /* NewsScenceViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = NewsScenceViewController.swift; sourceTree = "<group>"; };
+		28F5CD752BCB1F8800EBD67D /* DirectionScenceViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DirectionScenceViewController.swift; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -62,6 +68,9 @@
 				2828694C2BBCA7F700208321 /* SceneDelegate.swift */,
 				2828694E2BBCA7F700208321 /* ViewController.swift */,
 				282869502BBCA7F700208321 /* Main.storyboard */,
+				288385CC2BC8C30000457078 /* WeatherScenceViewController.swift */,
+				28F5CD752BCB1F8800EBD67D /* DirectionScenceViewController.swift */,
+				289F0C862BCB8697009C7C2B /* NewsScenceViewController.swift */,
 				282869562BBCA7F800208321 /* Assets.xcassets */,
 				282869582BBCA7F800208321 /* LaunchScreen.storyboard */,
 				2828695B2BBCA7F800208321 /* Info.plist */,
@@ -143,8 +152,11 @@
 			files = (
 				2828694F2BBCA7F700208321 /* ViewController.swift in Sources */,
 				2828694B2BBCA7F700208321 /* AppDelegate.swift in Sources */,
+				288385CD2BC8C30000457078 /* WeatherScenceViewController.swift in Sources */,
+				28F5CD762BCB1F8800EBD67D /* DirectionScenceViewController.swift in Sources */,
 				2828694D2BBCA7F700208321 /* SceneDelegate.swift in Sources */,
 				282869552BBCA7F700208321 /* Bigem_Maharjan_FE_8952906.xcdatamodeld in Sources */,
+				289F0C872BCB8697009C7C2B /* NewsScenceViewController.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -294,11 +306,14 @@
 				DEVELOPMENT_TEAM = QLTN58446L;
 				GENERATE_INFOPLIST_FILE = YES;
 				INFOPLIST_FILE = Bigem_Maharjan_FE_8952906/Info.plist;
+				INFOPLIST_KEY_CFBundleDisplayName = "";
+				INFOPLIST_KEY_NSLocationAlwaysAndWhenInUseUsageDescription = "";
+				INFOPLIST_KEY_NSLocationUsageDescription = "";
+				INFOPLIST_KEY_NSLocationWhenInUseUsageDescription = "";
 				INFOPLIST_KEY_UIApplicationSupportsIndirectInputEvents = YES;
 				INFOPLIST_KEY_UILaunchStoryboardName = LaunchScreen;
 				INFOPLIST_KEY_UIMainStoryboardFile = Main;
-				INFOPLIST_KEY_UISupportedInterfaceOrientations_iPad = "UIInterfaceOrientationPortrait UIInterfaceOrientationPortraitUpsideDown UIInterfaceOrientationLandscapeLeft UIInterfaceOrientationLandscapeRight";
-				INFOPLIST_KEY_UISupportedInterfaceOrientations_iPhone = "UIInterfaceOrientationPortrait UIInterfaceOrientationLandscapeLeft UIInterfaceOrientationLandscapeRight";
+				INFOPLIST_KEY_UISupportedInterfaceOrientations = UIInterfaceOrientationPortrait;
 				LD_RUNPATH_SEARCH_PATHS = (
 					"$(inherited)",
 					"@executable_path/Frameworks",
@@ -322,11 +337,14 @@
 				DEVELOPMENT_TEAM = QLTN58446L;
 				GENERATE_INFOPLIST_FILE = YES;
 				INFOPLIST_FILE = Bigem_Maharjan_FE_8952906/Info.plist;
+				INFOPLIST_KEY_CFBundleDisplayName = "";
+				INFOPLIST_KEY_NSLocationAlwaysAndWhenInUseUsageDescription = "";
+				INFOPLIST_KEY_NSLocationUsageDescription = "";
+				INFOPLIST_KEY_NSLocationWhenInUseUsageDescription = "";
 				INFOPLIST_KEY_UIApplicationSupportsIndirectInputEvents = YES;
 				INFOPLIST_KEY_UILaunchStoryboardName = LaunchScreen;
 				INFOPLIST_KEY_UIMainStoryboardFile = Main;
-				INFOPLIST_KEY_UISupportedInterfaceOrientations_iPad = "UIInterfaceOrientationPortrait UIInterfaceOrientationPortraitUpsideDown UIInterfaceOrientationLandscapeLeft UIInterfaceOrientationLandscapeRight";
-				INFOPLIST_KEY_UISupportedInterfaceOrientations_iPhone = "UIInterfaceOrientationPortrait UIInterfaceOrientationLandscapeLeft UIInterfaceOrientationLandscapeRight";
+				INFOPLIST_KEY_UISupportedInterfaceOrientations = UIInterfaceOrientationPortrait;
 				LD_RUNPATH_SEARCH_PATHS = (
 					"$(inherited)",
 					"@executable_path/Frameworks",
