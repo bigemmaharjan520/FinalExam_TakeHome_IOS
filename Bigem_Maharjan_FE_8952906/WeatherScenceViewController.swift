@@ -48,7 +48,7 @@ class WeatherScenceViewController: UIViewController {
             if let text = field.text, !text.isEmpty{
                 
                 DispatchQueue.main.async{
-                    //For Data persistence
+//                    //For Data persistence
                     var currentTasks = UserDefaults.standard.stringArray(forKey: "cityName") ?? []
                     currentTasks.append(text)
                     UserDefaults.standard.setValue(currentTasks, forKey: "cityName")

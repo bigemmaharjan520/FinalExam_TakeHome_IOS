@@ -11,20 +11,38 @@ import CoreLocation
 
 class NewsScenceViewController: UIViewController, CLLocationManagerDelegate, UITableViewDelegate, UITableViewDataSource {
     
-    var allTasks = [String]() //creating array variable to store the tasks
-    
-    var arrayOfArrays: [[String]] = [] //To store the all task array
-    
+    //Table View
     @IBOutlet weak var newsTableView: UITableView!
     
+    //Creating a struct for storing the needed news information
+    struct NewsReport {
+        let newsTitle: String
+        let newsDesc: String?
+        let newsAuthor: String
+        let newsSource: String
+    }
+    
+    var arrayOfNewsReport: [NewsReport] = [] //To store the all news array
+             
+    //creating variable for location manager
+    var locationManager: CLLocationManager!
+
+    //Current Location
+    var currentLocation: CLLocation?
+     
+    //creating variable for storing location name
+    var newsLocation: String = ""
+        
     //Home Icon
     @IBAction func goHome(_ sender: Any) {
         // Implementing the code to navigate back to the main screen
         navigationController?.popToRootViewController(animated: true)
     }
     
+
     //Change location to the one that you want to get news on
-    @IBAction func getLocationNews(_ sender: Any) {
+    @IBAction func changeNewsLocation(_ sender: Any) {
+   
         //Alert box with the message
         let alert = UIAlertController(title:"Enter your location", message:"Please write name of the location that you are to get the news", preferredStyle: .alert)
         
@@ -44,10 +62,7 @@ class NewsScenceViewController: UIViewController, CLLocationManagerDelegate, UIT
                         var currentTasks = UserDefaults.standard.stringArray(forKey: "newsLocation") ?? []
                         currentTasks.append(text)
                         UserDefaults.standard.setValue(currentTasks, forKey: "newsLocation")
-                        
-                        //storing value in cityName label
-                        self?.newsLocation = text
-                        
+                                                
                         //Calling get weather function once the city name is changed
                         self?.requestNews(for: text)
                         
@@ -59,41 +74,14 @@ class NewsScenceViewController: UIViewController, CLLocationManagerDelegate, UIT
         self.present(alert, animated:true, completion: nil)
     }
     
-    
-    //News Source
-//    @IBOutlet weak var sourceNews: UILabel!
-//
-//    //News Author
-//    @IBOutlet weak var authorNews: UILabel!
-//
-//    //News Title
-//    @IBOutlet weak var titleNews: UILabel!
-//
-//    //News Description
-//    @IBOutlet weak var descNews: UILabel!
-
- 
- //creating variable for location manager
- var locationManager: CLLocationManager!
-
- //Current Location
- var currentLocation: CLLocation?
- 
- //creating variable for storing location name
- var newsLocation: String = ""
- 
-
- 
  override func viewDidLoad() {
      super.viewDidLoad()
-//        self.allTasks = UserDefaults.standard.stringArray(forKey: "allTasks") ?? []
-//        newsTableView.dataSource = self
-//        newsTableView.delegate = self
+        newsTableView.dataSource = self
+        newsTableView.delegate = self
 
      // Do any additional setup after loading the view.
      setup()
      
-     newsLocation = "Waterloo"
  }
  
  //Settup of Location function
@@ -112,8 +100,8 @@ class NewsScenceViewController: UIViewController, CLLocationManagerDelegate, UIT
          guard let location = locations.first else {
              return
          }
-         
-         // Reverse geocode location
+    
+         // Reverse geocode location to get the name of the location that user is located
          CLGeocoder().reverseGeocodeLocation(location) { placemarks, error in
              if let error = error {
                  print("Reverse geocode failed: \(error.localizedDescription)")
@@ -124,8 +112,10 @@ class NewsScenceViewController: UIViewController, CLLocationManagerDelegate, UIT
                  // Display location name
                  if let city = placemark.locality {
                      self.newsLocation = "\(city)"
+//                     calling the function
+                     self.requestNews(for: "\(city)")
                  } else {
-                     self.newsLocation = "Unknown Location"
+                     self.newsLocation = "Waterloo" //Providing by default value
                  }
              }
          }
@@ -133,8 +123,7 @@ class NewsScenceViewController: UIViewController, CLLocationManagerDelegate, UIT
          // Stop updating location after the first update
          locationManager.stopUpdatingLocation()
      
-     //calling the function
-     requestNews(for: newsLocation)
+     //
      }
  
  
@@ -171,94 +160,85 @@ class NewsScenceViewController: UIViewController, CLLocationManagerDelegate, UIT
          //Updating user interface
          //Using Dispatch
          DispatchQueue.main.async {
-             //Changing the title, description, author and source according to the city name
-             for number in result.articles {
-//                    self.titleNews.text = number.title
-//
-//                    self.descNews.text = number.description
-//
-//                    self.authorNews.text = number.author
-//
-//                    self.sourceNews.text = number.source.name
+             //Using if condition to check whether the total result is 0 or not
+             if(result.totalResults == 0){
+                     self.arrayOfNewsReport.removeAll() //Getting removeAll() to remove the data as it changes according to location
+                 //Displaying if no any news is available
+                 let getNews = NewsReport(newsTitle: "No News Available", newsDesc: "Click on plus sign to change location.", newsAuthor: "Please check later.", newsSource: "Thank you.")
                  
-                 self.allTasks.append(number.title)
-                 self.allTasks.append(number.description ?? "No Description")
-                 self.allTasks.append(number.author)
-                 self.allTasks.append(number.source.name)
+                 self.arrayOfNewsReport.append(getNews) //Adding the data
+             }else{
+                 self.arrayOfNewsReport.removeAll() //Getting removeAll() to remove the data as it changes according to location
+                 //Changing the title, description, author and source according to the city name
+                 for number in result.articles {
+                     let getNews = NewsReport(newsTitle: number.title, newsDesc: number.description, newsAuthor: number.author, newsSource: number.source.name)
+
+                     self.arrayOfNewsReport.append(getNews) //Adding the data
+                     
+    //                 print(self.arrayOfNewsReport)
+                 }
              }
              
-             self.arrayOfArrays.append(self.allTasks)
+             // Reload table view data after fetching news
+            self.newsTableView.reloadData()
          }
-     })
+     }).resume()
  }
  
- //For Table View
+ //For Table View count
  func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
-     return allTasks.count
+     return arrayOfNewsReport.count
  }
  
  //For Table View Cell
  func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
-     let cell = tableView.dequeueReusableCell(withIdentifier: "todoListCell", for: indexPath)
+     let report = arrayOfNewsReport[indexPath.row]
+    
+     let cell = newsTableView.dequeueReusableCell(withIdentifier: "newsCell", for: indexPath) as! NewsTableViewCell
      
-     cell.textLabel?.text = allTasks[indexPath.row]
-     
-     // Configure cell UI elements
-//          cell.Title.text = "Title"
-//          cell.subtitleLabel.text = "Subtitle"
-     
-     return cell
+     //Checking which data to display
+     if(report.newsTitle == "No News Available"){
+         cell.newsTitle.text = report.newsTitle
+         cell.newsDescription.text = report.newsDesc
+         cell.newsAuthor.text = report.newsAuthor
+         cell.newsSource.text = report.newsSource
+         return cell
+     }else{
+         cell.newsTitle.text = "Title: \(report.newsTitle)"
+         cell.newsDescription.text = "Description: \(report.newsDesc ?? "No Description")"
+         cell.newsAuthor.text = "Author: \(report.newsAuthor)"
+         cell.newsSource.text = "Source: \(report.newsSource)"
+         return cell
+     }
  }
 
+    func tableView(_ tableView: UITableView, heightForRowAt indexPath: IndexPath) -> CGFloat {
+           // Return the desired height for the cells
+           return 150 // Adjust this value according to your requirement
+       }
 }
 
 
+// Parsing JSON
+// MARK: - NewsReportResponse
 struct NewsReportResponse: Codable {
- let status: String
- let totalResults: Int
- let articles: [Article]
+    let status: String
+    let totalResults: Int
+    let articles: [Article]
 }
 
 // MARK: - Article
 struct Article: Codable {
- let source: Source
- let author, title: String
- let description: String?
- let url: String
- let urlToImage: JSONNull?
- let publishedAt: Date
- let content: JSONNull?
+    let source: Source
+    let author, title: String
+    let description: String?
+    let url: String
+    let urlToImage: String?
+    let publishedAt: String
+    let content: String?
 }
 
 // MARK: - Source
 struct Source: Codable {
- let id, name: String
+    let id, name: String
 }
-
-// MARK: - Encode/decode helpers
-
-class JSONNull: Codable, Hashable {
-
- public static func == (lhs: JSONNull, rhs: JSONNull) -> Bool {
-     return true
- }
-
- public var hashValue: Int {
-     return 0
- }
-
- public init() {}
-
- public required init(from decoder: Decoder) throws {
-     let container = try decoder.singleValueContainer()
-     if !container.decodeNil() {
-         throw DecodingError.typeMismatch(JSONNull.self, DecodingError.Context(codingPath: decoder.codingPath, debugDescription: "Wrong type for JSONNull"))
-     }
- }
-
- public func encode(to encoder: Encoder) throws {
-     var container = encoder.singleValueContainer()
-     try container.encodeNil()
- }
-}
-

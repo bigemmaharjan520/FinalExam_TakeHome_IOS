@@ -39,7 +39,7 @@ class ViewController: UIViewController, CLLocationManagerDelegate, MKMapViewDele
         setup()
     }
     
-    //Settup of Location function
+    //Setup of Location function
     func setup(){
         locationManager = CLLocationManager()
         locationManager.delegate = self
@@ -95,7 +95,7 @@ class ViewController: UIViewController, CLLocationManagerDelegate, MKMapViewDele
         }
         
         //getting coordinate of user location for the weather
-        let latitudee = location.coordinate.latitude
+       let latitudee = location.coordinate.latitude
        let longitudee = location.coordinate.longitude
         
         //print("Latitude:\(latitudee), Longitude:\(longitudee)")
